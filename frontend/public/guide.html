@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我趣文档 Woqu — 官方使用文档与功能参考</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --sidebar: #f7f7f5;
+      --panel: #fbfbfa;
+      --hover: #efefec;
+      --active: #e6e6e1;
+      --border: #e9e9e7;
+      --text: #1f2329;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.08);
+      --purple: #7c3aed;
+      --purple-soft: rgba(124, 58, 237, 0.08);
+      --green-soft: rgba(16, 185, 129, 0.1);
+      --amber-soft: rgba(245, 158, 11, 0.12);
+      --code-bg: #1e2430;
+      --code-text: #e2e8f0;
+      --inline-code-bg: rgba(135, 131, 120, 0.15);
+      --inline-code-text: #eb5757;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    html.dark {
+      --bg: #191919;
+      --sidebar: #202020;
+      --panel: #252525;
+      --hover: #2c2c2b;
+      --active: #343432;
+      --border: #333332;
+      --text: #e6e6e4;
+      --muted: #9b9a97;
+      --accent: #60a5fa;
+      --accent-soft: rgba(96, 165, 250, 0.14);
+      --purple: #a78bfa;
+      --purple-soft: rgba(167, 139, 250, 0.14);
+      --green-soft: rgba(16, 185, 129, 0.16);
+      --amber-soft: rgba(245, 158, 11, 0.16);
+      --code-bg: #14171f;
+      --code-text: #e2e8f0;
+      --inline-code-bg: rgba(255, 255, 255, 0.1);
+      --inline-code-text: #f87171;
+      --shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.35); border-radius: 9999px; }
+
+    .layout {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 264px;
+      flex-shrink: 0;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      user-select: none;
+      z-index: 40;
+      transition: transform 0.2s ease;
+    }
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .brand-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+    .icon-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-size: 12px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .icon-btn:hover { background: var(--hover); color: var(--text); }
+
+    .search-trigger {
+      margin: 10px 10px 6px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--muted);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .search-trigger:hover { border-color: var(--accent); }
+    .kbd {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 5px;
+      background: var(--hover);
+      color: var(--muted);
+      font-family: ui-monospace, monospace;
+    }
+
+    .nav-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 6px 8px 16px;
+    }
+    .nav-group-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 10px 10px 4px;
+    }
+    .nav-item {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      opacity: 0.84;
+      text-align: left;
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      margin-bottom: 2px;
+      transition: background 0.12s;
+    }
+    .nav-item:hover { background: var(--hover); opacity: 1; }
+    .nav-item.active {
+      background: var(--active);
+      font-weight: 600;
+      opacity: 1;
+    }
+    .sidebar-footer {
+      border-top: 1px solid var(--border);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .footer-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .footer-link:hover { background: var(--hover); color: var(--text); }
+
+    /* Main Workspace */
+    .main-col {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .topbar {
+      height: 48px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border);
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .mobile-menu-btn { display: none; }
+
+    .content-row {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+    }
+    .scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      padding: 36px 28px 80px;
+    }
+    .doc-container {
+      margin: 0 auto;
+      max-width: 820px;
+      transition: max-width 0.2s ease;
+      line-height: 1.75;
+      font-size: 15.5px;
+    }
+    .doc-container.wide { max-width: 1120px; }
+
+    /* Right TOC */
+    .toc-panel {
+      width: 232px;
+      flex-shrink: 0;
+      border-left: 1px solid var(--border);
+      background: var(--panel);
+      padding: 18px 14px;
+      overflow-y: auto;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 10px;
+      letter-spacing: 0.03em;
+    }
+    .toc-link {
+      display: block;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      line-height: 1.45;
+      margin-bottom: 2px;
+      border-left: 2px solid transparent;
+    }
+    .toc-link:hover { background: var(--hover); color: var(--text); }
+    .toc-link.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 600;
+    }
+    .toc-link.level-3 { padding-left: 18px; font-size: 11.5px; }
+
+    /* Typography & Blocks (Wolai/Notion Style) */
+    .page-hero { margin-bottom: 26px; }
+    .page-icon { font-size: 42px; line-height: 1.1; margin-bottom: 8px; }
+    .page-title { font-size: 32px; font-weight: 800; margin: 0 0 10px; line-height: 1.25; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag-pill {
+      font-size: 11.5px;
+      padding: 2px 10px;
+      border-radius: 999px;
+      background: var(--hover);
+      color: var(--muted);
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 34px 0 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    h3 {
+      font-size: 17px;
+      font-weight: 650;
+      margin: 22px 0 8px;
+    }
+    p { margin: 10px 0; }
+    ul, ol { padding-left: 22px; margin: 8px 0 14px; }
+    li { margin: 5px 0; }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.87em;
+      background: var(--inline-code-bg);
+      color: var(--inline-code-text);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Callout */
+    .callout {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin: 16px 0;
+      font-size: 14px;
+      line-height: 1.65;
+      border: 1px solid;
+    }
+    .callout-blue { background: rgba(59, 130, 246, 0.08); border-color: rgba(59, 130, 246, 0.25); }
+    .callout-purple { background: rgba(139, 92, 246, 0.08); border-color: rgba(139, 92, 246, 0.25); }
+    .callout-green { background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.25); }
+    .callout-amber { background: rgba(245, 158, 11, 0.09); border-color: rgba(245, 158, 11, 0.28); }
+    .callout-icon { font-size: 19px; line-height: 1.3; flex-shrink: 0; }
+
+    /* Code block */
+    .code-wrap {
+      margin: 14px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--code-bg);
+      color: var(--code-text);
+    }
+    .code-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 12px;
+      background: rgba(0, 0, 0, 0.22);
+      font-size: 11.5px;
+      color: #94a3b8;
+    }
+    .copy-btn {
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: rgba(255, 255, 255, 0.06);
+      color: #e2e8f0;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .copy-btn:hover { background: rgba(255, 255, 255, 0.14); }
+    pre {
+      margin: 0;
+      padding: 14px 16px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+
+    /* Tables */
+    .table-wrap { overflow-x: auto; margin: 14px 0; border-radius: 10px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: left; }
+    th, td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { background: var(--sidebar); font-weight: 600; font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--panel); }
+
+    /* Cards Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .info-card {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .info-card h4 { margin: 0 0 6px; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+    .info-card p { margin: 0; font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+
+    /* Toggle Block */
+    .toggle-block {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin: 10px 0;
+    }
+    .toggle-block summary {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      outline: none;
+    }
+    .toggle-block[open] summary { margin-bottom: 8px; }
+
+    /* Filter Chips & Interactive Controls */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .chip {
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .chip.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+    .mini-input {
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12.5px;
+      outline: none;
+      min-width: 190px;
+    }
+    .mini-input:focus { border-color: var(--accent); }
+
+    /* Pager */
+    .pager {
+      margin-top: 44px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .pager-btn {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 12px 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .pager-btn:hover { border-color: var(--accent); }
+    .pager-btn.next { text-align: right; }
+    .pager-label { font-size: 11px; color: var(--muted); }
+    .pager-title { font-size: 13.5px; font-weight: 600; margin-top: 3px; }
+
+    /* Search Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 12vh;
+      z-index: 60;
+    }
+    .modal-backdrop.open { display: flex; }
+    .search-modal {
+      width: 92%;
+      max-width: 580px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .search-modal-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .search-modal-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+    }
+    .search-results { max-height: 380px; overflow-y: auto; padding: 8px; }
+    .search-hit {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      text-align: left;
+      padding: 9px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: block;
+    }
+    .search-hit:hover { background: var(--hover); }
+    .search-hit-title { font-size: 13px; font-weight: 600; }
+    .search-hit-sub { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+    /* Flow Diagram */
+    .flow-box {
+      margin: 16px 0;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 12.5px;
+    }
+    .flow-node {
+      padding: 8px 12px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      font-weight: 600;
+      text-align: center;
+    }
+    .flow-arrow { color: var(--muted); font-weight: bold; }
+
+    .mobile-backdrop { display: none; }
+
+    @media (max-width: 1024px) {
+      .toc-panel { display: none; }
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        transform: translateX(-100%);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .mobile-backdrop.open {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 35;
+      }
+      .mobile-menu-btn { display: inline-flex; }
+      .scroll-area { padding: 24px 16px 60px; }
+      .pager { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="mobile-backdrop" id="mobileBackdrop"></div>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <span>✨ 我趣文档 Woqu</span>
+          <span class="brand-badge">使用手册</span>
+        </div>
+        <button class="icon-btn" id="themeBtn" title="切换浅/深主题">🌙</button>
+      </div>
+
+      <button class="search-trigger" id="openSearchBtn">
+        <span>🔍 搜索文档 / 命令 / 公式...</span>
+        <span class="kbd">⌘K</span>
+      </button>
+
+      <nav class="nav-list" id="navList"></nav>
+
+      <div class="sidebar-footer">
+        <a class="footer-link" href="/" target="_self">🏠 返回 Woqu 工作区</a>
+        <a class="footer-link" href="https://github.com/backbay2/woqu" target="_blank" rel="noopener noreferrer">📦 GitHub 开源仓库</a>
+      </div>
+    </aside>
+
+    <!-- Main Column -->
+    <div class="main-col">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn">☰ 目录</button>
+          <span id="breadcrumb">🚀 产品概览与快速上手</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <button class="icon-btn" id="widthToggleBtn" title="切换标准/宽屏阅读宽度">↔️ 宽屏</button>
+        </div>
+      </header>
+
+      <div class="content-row">
+        <main class="scroll-area" id="scrollArea">
+          <article class="doc-container" id="docContainer"></article>
+        </main>
+        <aside class="toc-panel">
+          <div class="toc-title">本页大纲 (TOC)</div>
+          <div id="tocList"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Search Modal -->
+  <div class="modal-backdrop" id="searchBackdrop">
+    <div class="search-modal" id="searchModal">
+      <div class="search-modal-head">
+        <span>🔍</span>
+        <input class="search-modal-input" id="searchInput" placeholder="搜索使用章节、/斜杠命令、公式函数或常见问题..." />
+        <button class="icon-btn" id="closeSearchBtn">✕</button>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script>
+    const SLASH_COMMANDS = [
+      { group: 'AI 写作助手', name: 'AI 智能续写', keys: 'ai, continue, xuxie, 续写', desc: '读取前 1500 字上下文流式续写下一段' },
+      { group: 'AI 写作助手', name: 'AI 生成大纲 / 草稿', keys: 'ai, outline, draft, 大纲', desc: '输入主题生成结构化文章大纲与正文' },
+      { group: 'AI 写作助手', name: 'AI 生成全文摘要与待办', keys: 'ai, summary, 摘要, 总结', desc: '提炼文档核心摘要、要点与行动项' },
+      { group: '基础块', name: '正文段落', keys: 'text, paragraph, p, 正文', desc: '切换为普通文字段落' },
+      { group: '基础块', name: '一级标题 H1', keys: 'h1, heading1, 一级标题', desc: '大号章节标题（自动同步右侧大纲）' },
+      { group: '基础块', name: '二级标题 H2', keys: 'h2, heading2, 二级标题', desc: '中号小节标题（自动同步右侧大纲）' },
+      { group: '基础块', name: '三级标题 H3', keys: 'h3, heading3, 三级标题', desc: '小号子标题（自动同步右侧大纲）' },
+      { group: '基础块', name: '无序列表', keys: 'ul, bullet, list, 无序列表', desc: '项目符号清单，支持 Tab 嵌套缩进' },
+      { group: '基础块', name: '有序列表', keys: 'ol, ordered, number, 有序列表', desc: '自动递增编号列表' },
+      { group: '基础块', name: '待办清单 (To-do)', keys: 'todo, task, check, 待办', desc: '可点击勾选的任务清单' },
+      { group: '基础块', name: '引用块', keys: 'quote, blockquote, 引用', desc: '左侧蓝色竖线高亮引用段落' },
+      { group: '基础块', name: '分割线', keys: 'hr, divider, line, 分割线', desc: '插入水平视觉分隔线' },
+      { group: '高级排版', name: '柔色提示块 (Callout)', keys: 'callout, tip, note, 提示块', desc: 'Wolai 风格 8 色圆角背景框 + 8 种图标' },
+      { group: '高级排版', name: '折叠块 (Toggle)', keys: 'toggle, collapse, 折叠', desc: '可展开/收起的嵌套详情块' },
+      { group: '高级排版', name: '两栏分栏布局', keys: 'col, columns, 2col, 两栏', desc: '左右并排双栏排版（移动端自适应单列）' },
+      { group: '高级排版', name: '三栏分栏布局', keys: 'col3, columns3, 三栏', desc: '三列并排分栏容器' },
+      { group: '高级排版', name: '普通表格', keys: 'table, biaoge, 表格', desc: '插入带表头的 3×3 文档表格' },
+      { group: '高级排版', name: '代码块', keys: 'code, codeblock, 代码', desc: 'Lowlight 语法高亮代码块 + 一键复制' },
+      { group: '高级排版', name: 'Mermaid 流程图', keys: 'mermaid, diagram, 流程图', desc: '编辑 Mermaid 源码并实时渲染矢量图表' },
+      { group: '高级排版', name: 'LaTeX 数学公式块', keys: 'math, latex, katex, 公式', desc: 'KaTeX 块级公式居中渲染' },
+      { group: '媒体与嵌入', name: '上传图片', keys: 'image, img, 图片', desc: '上传本地图片到 data/uploads/ 并内嵌' },
+      { group: '媒体与嵌入', name: '上传文件附件', keys: 'file, upload, 附件', desc: '上传 PDF/压缩包等生成下载卡片' },
+      { group: '媒体与嵌入', name: '网页书签卡片', keys: 'bookmark, link, url, 书签', desc: '生成带标题/描述的网页书签卡片' },
+      { group: '多维数据库', name: '内嵌多维数据库', keys: 'database, db, kanban, 多维表', desc: '在文档正文中嵌入真实 4 视图多维数据库' },
+    ];
+
+    const FORMULA_DOCS = [
+      { cat: '逻辑读取', fn: 'prop("字段名")', desc: '读取当前行字段值（支持字段名或 ID，可读取公式/汇总结果）' },
+      { cat: '逻辑读取', fn: 'if(条件, 真值, 假值)', desc: '短路条件分支判断' },
+      { cat: '逻辑读取', fn: 'ifs(条件1, 值1, 条件2, 值2, ...)', desc: '多条件顺序匹配，奇数个参数时末位为兜底值' },
+      { cat: '逻辑读取', fn: 'and(a, b, ...) / or(a, b, ...)', desc: '全真返回 true / 任一为真返回 true（支持短路）' },
+      { cat: '逻辑读取', fn: 'not(值)', desc: '逻辑取反' },
+      { cat: '逻辑读取', fn: 'empty(值)', desc: '判断值是否为空（null、"" 或空数组均返回 true）' },
+      { cat: '逻辑读取', fn: 'coalesce(a, b, ...)', desc: '返回首个非空参数' },
+      { cat: '字符串', fn: 'concat(a, b, ...)', desc: '拼接多个文本或数值' },
+      { cat: '字符串', fn: 'join(分隔符, 列表)', desc: '用分隔符连接多选/关联数组元素' },
+      { cat: '字符串', fn: 'contains(文本, 子串)', desc: '判断文本或数组是否包含目标' },
+      { cat: '字符串', fn: 'length(文本或列表)', desc: '获取字符长度或列表项数' },
+      { cat: '字符串', fn: 'slice(值, start, [end])', desc: '截取字符串或数组片段' },
+      { cat: '字符串', fn: 'substring(值, start, [end])', desc: '同 slice，截取子串' },
+      { cat: '字符串', fn: 'lower(文本) / upper(文本)', desc: '转为小写 / 大写' },
+      { cat: '字符串', fn: 'trim(文本)', desc: '去除首尾空格与换行' },
+      { cat: '字符串', fn: 'replace(文本, 正则, 替换)', desc: '正则替换首个匹配项' },
+      { cat: '字符串', fn: 'replaceAll(文本, 旧串, 新串)', desc: '全局替换指定子串' },
+      { cat: '字符串', fn: 'split(文本, 分隔符)', desc: '拆分为字符串数组' },
+      { cat: '字符串', fn: 'test(文本, 正则)', desc: '检测是否匹配正则表达式' },
+      { cat: '字符串', fn: 'format(值)', desc: '将任意类型转为格式化文本' },
+      { cat: '数学统计', fn: 'round(数值, [位数])', desc: '四舍五入到指定小数位' },
+      { cat: '数学统计', fn: 'floor(数值) / ceil(数值)', desc: '向下取整 / 向上取整' },
+      { cat: '数学统计', fn: 'abs(数值)', desc: '取绝对值' },
+      { cat: '数学统计', fn: 'sqrt(数值) / pow(底数, 指数)', desc: '开平方 / 乘幂运算' },
+      { cat: '数学统计', fn: 'mod(被除数, 除数)', desc: '取余数（除数为 0 返回 #DIV/0!）' },
+      { cat: '数学统计', fn: 'min(...) / max(...)', desc: '求最小值 / 最大值' },
+      { cat: '数学统计', fn: 'sum(...) / avg(...)', desc: '求和 / 求平均值（自动展平数组）' },
+      { cat: '数学统计', fn: 'toNumber(值)', desc: '将文本或布尔转为数字' },
+      { cat: '日期时间', fn: 'now() / today()', desc: '当前精确时间 / 今天零点日期' },
+      { cat: '日期时间', fn: 'parseDate(文本)', desc: '解析日期字符串（YYYY-MM-DD 按本地零点解析）' },
+      { cat: '日期时间', fn: 'timestamp(日期)', desc: '转为毫秒级 Unix 时间戳' },
+      { cat: '日期时间', fn: 'year / month / date / day(日期)', desc: '分别提取年、月(1-12)、日(1-31)、星期(0-6)' },
+      { cat: '日期时间', fn: 'formatDate(日期, "YYYY-MM-DD")', desc: '格式化日期（支持 YYYY MM M DD D HH mm ss）' },
+      { cat: '日期时间', fn: 'dateAdd(日期, 数量, 单位)', desc: '日期加值（years/months/weeks/days/hours/minutes）' },
+      { cat: '日期时间', fn: 'dateSubtract(日期, 数量, 单位)', desc: '日期减值（支持同上单位）' },
+      { cat: '日期时间', fn: 'dateBetween(日期1, 日期2, 单位)', desc: '计算日期1 - 日期2 的时间差' },
+      { cat: '列表数组', fn: 'count(列表)', desc: '统计数组元素数量' },
+      { cat: '列表数组', fn: 'unique(列表)', desc: '数组去重' },
+      { cat: '列表数组', fn: 'flat(...)', desc: '展平嵌套列表并过滤空值' },
+      { cat: '列表数组', fn: 'first(列表) / last(列表)', desc: '取首个 / 最后一个元素' },
+      { cat: '列表数组', fn: 'includes(列表, 项)', desc: '判断列表是否包含指定值' },
+    ];
+
+    const AI_PRESETS = {
+      deepseek: { title: 'DeepSeek', proto: 'openai_compatible', url: 'https://api.deepseek.com/v1', models: 'deepseek-chat, deepseek-reasoner', tip: '中文写作与工具调用性价比极高，直接填写官方 API Key 即可。' },
+      openai: { title: 'OpenAI', proto: 'openai_compatible', url: 'https://api.openai.com/v1', models: 'gpt-4o-mini, gpt-4o, text-embedding-3-small', tip: '支持对话与 Embedding 向量模型，兼容各类符合 OpenAI 规范的中转服务。' },
+      qwen: { title: '通义千问 (DashScope)', proto: 'openai_compatible', url: 'https://dashscope.aliyuncs.com/compatible-mode/v1', models: 'qwen-plus, qwen-max, text-embedding-v3', tip: '阿里云百炼 OpenAI 兼容接口，中文摘要与向量检索表现优秀。' },
+      silicon: { title: '硅基流动 SiliconFlow', proto: 'openai_compatible', url: 'https://api.siliconflow.cn/v1', models: 'Qwen/Qwen2.5-72B-Instruct, BAAI/bge-m3', tip: '一站式托管开源大模型与开源中文向量模型 BGE-M3。' },
+      ollama: { title: '本地 Ollama (100% 离线)', proto: 'openai_compatible', url: 'http://localhost:11434/v1', models: 'qwen2.5:7b, nomic-embed-text', tip: 'API Key 留空。若 Woqu 运行在 Docker 容器中访问宿主机 Ollama，请将 Base URL 改为 http://host.docker.internal:11434/v1。' },
+      claude: { title: 'Anthropic Claude', proto: 'anthropic', url: 'https://api.anthropic.com', models: 'claude-3-7-sonnet-latest, claude-3-5-haiku-latest', tip: '原生适配 Anthropic Messages SSE 与 tool_use 协议。' },
+      gemini: { title: 'Google Gemini', proto: 'gemini', url: 'https://generativelanguage.googleapis.com', models: 'gemini-2.5-flash, gemini-2.5-pro, text-embedding-004', tip: '原生适配 streamGenerateContent?alt=sse 与 embedContent 接口。' },
+    };
+
+    const CHAPTERS = [
+      {
+        id: 'overview',
+        group: '快速开始',
+        icon: '🚀',
+        title: '产品概览与快速上手',
+        tags: ['入门', '架构', '部署'],
+        html: `
+          <div class="callout callout-blue">
+            <span class="callout-icon">✨</span>
+            <div><b>欢迎阅读「我趣文档 Woqu」官方使用文档！</b><br/>Woqu 是一款对标 Notion 与 Wolai 的私有化自托管全能知识库，整合了<b>块级富文本编辑器、多维数据库（含 AST 公式引擎）、多模型 AI 中心、RAG 知识库问答与安全确认式 Agent</b>，全站数据仅依赖单个 <code>data/</code> 目录。</div>
+          </div>
+
+          <h2>核心技术架构</h2>
+          <div class="card-grid">
+            <div class="info-card">
+              <h4>⚡ 轻量纯 Go 单二进制</h4>
+              <p>基于 Go + Chi + <code>modernc.org/sqlite</code>（免 CGO），通过 <code>go:embed</code> 将前端产物打包进单个可执行文件。</p>
+            </div>
+            <div class="info-card">
+              <h4>🔎 CJK 中文分词 + 向量混合</h4>
+              <p>内置 <code>SegmentCJK</code> 中文分词接入 SQLite FTS5 BM25，支持可选 Embedding 向量 BLOB 通过 RRF 算法混合检索。</p>
+            </div>
+            <div class="info-card">
+              <h4>🔒 数据完全掌握在自己手里</h4>
+              <p>所有文档、数据库与附件存储在 <code>data/</code>，AI API Key 使用 AES-256-GCM 加密存库，支持一键热备份打包迁移。</p>
+            </div>
+          </div>
+
+          <h2>首次启动与初始化</h2>
+          <ol>
+            <li>启动服务后在浏览器打开 <code>http://localhost:8080</code>，进入首次初始化引导页。</li>
+            <li>设置工作区图标、名称以及登录密码（若仅在纯本机 <code>localhost</code> 个人使用，可勾选<b>「本机免登录模式」</b>，之后随时可在设置中改回密码保护）。</li>
+            <li>进入工作区后，系统会自动创建引导文档 <code>🚀 欢迎使用我趣文档</code> 与示例多维表 <code>📋 项目任务看板</code>，开箱即可体验全部特性。</li>
+          </ol>
+
+          <div class="code-wrap">
+            <div class="code-head"><span>Docker Compose 一键部署</span><button class="copy-btn" data-copy="docker compose up -d --build">复制</button></div>
+            <pre><code>docker compose up -d --build</code></pre>
+          </div>
+        `,
+      },
+      {
+        id: 'workspace',
+        group: '快速开始',
+        icon: '🗂️',
+        title: '工作区界面与知识库效率',
+        tags: ['页面树', '搜索', '图谱', '版本回滚'],
+        html: `
+          <h2>三栏界面与页面树管理</h2>
+          <ul>
+            <li><b>左侧导航栏</b>：包含工作区名称、浅/深主题开关、全局搜索入口 <code>⌘K</code>、收藏夹、无限层级页面树与底部工具区。</li>
+            <li><b>拖拽调整层级</b>：在页面树中直接拖放任意页面到另一页面上，即可将其移动为子页面（自动防循环移动）。悬停页面行可快速点击 <code>+</code> 新建子页、复制副本或移入回收站。</li>
+            <li><b>右侧按需面板</b>：顶部工具栏可随时展开或收起 <b>大纲 (TOC)</b>、<b>反向链接</b> 与 <b>AI 助手</b>，支持标准阅读宽度与宽屏画布一键切换。</li>
+          </ul>
+
+          <h2>全局混合搜索 (Cmd/Ctrl + K)</h2>
+          <p>在任意位置按下 <code>Cmd + K</code>（Windows 为 <code>Ctrl + K</code>）呼出搜索面板：</p>
+          <ul>
+            <li>未输入时提供新建页面、新建多维表、打开知识图谱、切换主题等快捷指令。</li>
+            <li>输入任意中文短词（如 <code>看板</code>、<code>摘要</code>）或英文词，毫秒级检索页面标题、正文、摘要与标签。</li>
+          </ul>
+
+          <h2>双向链接与知识图谱</h2>
+          <p>在编辑器中输入 <code>[[</code> 可搜索并插入其他页面的双向链接胶囊。点击右上角 <b>「反链」</b> 查看谁引用了当前页；点击左侧栏 <b>「双向链接图谱」</b> 打开交互式力导向图谱，支持滚轮缩放、拖拽节点、按标签/标题过滤与双击直达页面。</p>
+
+          <h2>历史版本快照与一键回滚</h2>
+          <p>点击右上角时钟图标打开版本历史，每篇文档最多保存 80 份快照，包含三类来源：</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>快照类型</th><th>触发机制</th><th>用途</th></tr></thead>
+              <tbody>
+                <tr><td><code>auto</code> 自动保存</td><td>编辑内容变更时自动节流保存（5 分钟内去重）</td><td>防误删误改兜底</td></tr>
+                <tr><td><code>manual</code> 手动快照</td><td>在历史弹窗中点击「保存当前快照」</td><td>记录重要里程碑</td></tr>
+                <tr><td><code>pre_ai</code> AI 修改前快照</td><td>AI Agent 确认写入现有页面前强制自动创建</td><td>保证 AI 改写 100% 可回退</td></tr>
+              </tbody>
+            </table>
+          </div>
+        `,
+      },
+      {
+        id: 'editor',
+        group: '核心功能',
+        icon: '✏️',
+        title: 'TipTap 块级编辑器与斜杠命令',
+        tags: ['斜杠菜单', 'Mermaid', 'KaTeX', 'Diff'],
+        html: `
+          <h2>悬浮拖拽手柄与块操作菜单</h2>
+          <p>将鼠标移动到正文任意块上，左侧会出现 <code>+</code>（在下方插入新块并触发 <code>/</code>）与 <code>⋮⋮</code> 手柄：</p>
+          <ul>
+            <li><b>按住 <code>⋮⋮</code> 拖拽</b>：上下调整段落、提示块、代码块或内嵌数据库的位置。</li>
+            <li><b>单击 <code>⋮⋮</code> 菜单</b>：支持转换块类型（正文/H1/H2/H3/列表/待办）、<b>让 AI 优化该块</b>、复制块、复制精确块锚点链接（<code>#block-xxx</code>）与删除块。</li>
+          </ul>
+
+          <h2>24 个 / 斜杠命令速查</h2>
+          <div class="filter-bar">
+            <input class="mini-input" id="slashFilterInput" placeholder="输入中文、英文或拼音过滤命令..." />
+            <div id="slashGroupChips" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>分组</th><th>命令名称</th><th>触发关键词</th><th>功能说明</th></tr></thead>
+              <tbody id="slashTableBody"></tbody>
+            </table>
+          </div>
+
+          <h2>划词浮动工具栏与 AI Diff 预览</h2>
+          <p>用鼠标选中任意一段文字，上方会弹出纯 React Portal 浮动工具栏，提供加粗/斜体/下划线/删除线/行内代码/高亮/超链接，以及 <b>「AI 优化」</b> 下拉菜单。调用后在页面下方实时展示<b>红删绿增的词级 Diff 预览</b>，支持一键 <b>替换选中</b>、<b>插入下方</b>、<b>重新生成</b> 或 <b>丢弃</b>。</p>
+
+          <div class="callout callout-purple">
+            <span class="callout-icon">💡</span>
+            <div><b>Mermaid 与 LaTeX 提示</b>：输入 <code>\`\`\`mermaid</code> 回车即可插入实时渲染的流程图；双击图表或点击右上角「编辑源码」可随时修改 Mermaid 文本。</div>
+          </div>
+        `,
+      },
+      {
+        id: 'database',
+        group: '核心功能',
+        icon: '🗃️',
+        title: '多维数据库与 4 大视图',
+        tags: ['表格', '看板', '日历', '画廊', '双向关联'],
+        html: `
+          <h2>Notion 统一行模型</h2>
+          <p>在 Woqu 中，多维数据库的每一行记录本身就是一篇完整的文档页面。点击表格标题或看板卡片会滑出<b>行详情抽屉</b>（上方编辑全部字段、下方直接挂载块级编辑器写长文），也可以一键<b>作为全页打开</b>。</p>
+
+          <h2>四大核心视图</h2>
+          <div class="card-grid">
+            <div class="info-card"><h4>📊 表格视图</h4><p>全字段原地编辑、点击新增选项、+ 字段扩展列，支持底栏计数/非空/求和/均值聚合。</p></div>
+            <div class="info-card"><h4>📌 看板视图</h4><p>按单选或复选框分组，支持拖放卡片跨列自动变更状态，每列支持快速新增卡片。</p></div>
+            <div class="info-card"><h4>📅 日历视图</h4><p>月视图映射日期字段，悬停任意日期右上角 + 号即可新建该日行程与任务。</p></div>
+            <div class="info-card"><h4>🖼️ 画廊视图</h4><p>卡片网格展示封面或正文摘要与关键属性标签，适合项目案例与灵感收藏。</p></div>
+          </div>
+
+          <h2>18 种字段类型与双向关联</h2>
+          <ul>
+            <li><b>基础与联系字段</b>：<code>title</code>（主列）、<code>text</code>、<code>number</code>（支持人民币 <code>¥</code> / 百分比 <code>%</code>）、<code>select</code>、<code>multi_select</code>、<code>date</code>、<code>checkbox</code>、<code>url</code>、<code>email</code>、<code>phone</code>、<code>person</code>、<code>files</code>、<code>created_time</code>、<code>updated_time</code>。</li>
+            <li><b>双向关联 (Relation)</b>：在字段设置中勾选「开启双向关联」后，系统自动在目标数据库生成反向关联列；任意一端增删关联项都在数据库事务内双向同步。</li>
+            <li><b>汇总 (Rollup)</b>：基于关联列对目标库字段执行 14 种汇总：<code>count_all</code>、<code>count_values</code>、<code>count_unique</code>、<code>count_empty</code>、<code>percent_not_empty</code>、<code>percent_empty</code>、<code>sum</code>、<code>avg</code>、<code>median</code>、<code>min</code>、<code>max</code>、<code>range</code>、<code>show_original</code>、<code>show_unique</code>。</li>
+            <li><b>AI 自动生成列 (ai_autofill)</b>：配置 Prompt 与源上下文列后，点击工具栏「AI 填充」即可批量或单行生成摘要/结论。</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'formula',
+        group: '核心功能',
+        icon: '🧮',
+        title: 'AST 公式引擎全参考 (52 函数)',
+        tags: ['公式', '函数速查', '语法'],
+        html: `
+          <div class="callout callout-green">
+            <span class="callout-icon">🛡️</span>
+            <div><b>安全沙箱求值</b>：Woqu 自研纯 TypeScript 词法与 Pratt 递归下降语法分析器，不使用 <code>eval()</code>。字段设置窗口支持<b>实时语法校验</b>、<b>首行结果实时预览</b>、除零保护 (<code>#DIV/0!</code>) 与公式循环引用检测 (<code>#CYCLE!</code>)。</div>
+          </div>
+
+          <h2>高频实用公式范例</h2>
+          <div class="code-wrap">
+            <div class="code-head"><span>任务逾期状态 &amp; 金额计算示例</span><button class="copy-btn" data-copy='if(prop("状态") == "已完成", "✅ 已完成", ifs(empty(prop("日期")), "⏳ 未排期", dateBetween(prop("日期"), today(), "days") < 0, concat("🚨 已逾期 ", abs(dateBetween(prop("日期"), today(), "days")), " 天"), dateBetween(prop("日期"), today(), "days") == 0, "🔥 今天截止", concat("📅 剩余 ", dateBetween(prop("日期"), today(), "days"), " 天")))'>复制</button></div>
+            <pre><code>// 1. 智能任务倒计时提示
+if(prop("状态") == "已完成", "✅ 已完成",
+  ifs(
+    empty(prop("日期")), "⏳ 未排期",
+    dateBetween(prop("日期"), today(), "days") &lt; 0, concat("🚨 已逾期 ", abs(dateBetween(prop("日期"), today(), "days")), " 天"),
+    dateBetween(prop("日期"), today(), "days") == 0, "🔥 今天截止",
+    concat("📅 剩余 ", dateBetween(prop("日期"), today(), "days"), " 天")
+  )
+)
+
+// 2. 含税总价保留 2 位小数
+round(prop("单价") * prop("数量") * 1.13, 2)</code></pre>
+          </div>
+
+          <h2>全部函数速查表</h2>
+          <div class="filter-bar">
+            <input class="mini-input" id="formulaSearchInput" placeholder="搜索函数名或中文说明..." />
+            <div id="formulaCatChips" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>分类</th><th>函数签名</th><th>说明</th></tr></thead>
+              <tbody id="formulaTableBody"></tbody>
+            </table>
+          </div>
+        `,
+      },
+      {
+        id: 'ai',
+        group: 'AI 与自动化',
+        icon: '🤖',
+        title: '多模型 AI、RAG 与确认式 Agent',
+        tags: ['DeepSeek', 'Ollama', 'RAG', 'Agent'],
+        html: `
+          <h2>7 家主流模型快捷配置</h2>
+          <p>点击下方标签查看各厂商推荐配置（在「系统与 AI 设置 → AI 模型中心」中可一键填入预设，API Key 均经 <b>AES-256-GCM</b> 加密保存）：</p>
+          <div class="filter-bar" id="aiPresetTabs"></div>
+          <div class="callout callout-blue" id="aiPresetDetail" style="flex-direction:column;gap:6px;"></div>
+
+          <h2>按任务路由与向量混合检索</h2>
+          <ul>
+            <li><b>5 个任务槽位</b>：可分别为 <code>RAG 对话 &amp; Agent</code>、<code>划词润色 / 斜杠写作</code>、<code>页面摘要 &amp; 待办</code>、<code>多维表自动填充</code> 与 <code>Embedding 向量模型</code> 指派不同模型。</li>
+            <li><b>RRF 混合检索</b>：提问时支持切换作用域（<b>当前页 / 当前目录 / 全部知识库</b>），同时合并 SQLite CJK FTS5 BM25 与 Float32 向量余弦相似度排名；即使不配 Embedding 也可顺畅运行纯全文检索。</li>
+          </ul>
+
+          <h2>安全确认式 AI Agent 链路</h2>
+          <div class="flow-box">
+            <div class="flow-node">1. 用户提问或下达指令</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node">2. 自动调用只读工具检索<br/><small style="color:var(--muted);font-weight:400">search / get_page / list / query_db</small></div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node" style="border-color:var(--purple);">3. 写入操作生成确认卡片<br/><small style="color:var(--muted);font-weight:400">create / update / append / row</small></div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node">4. 用户点击确认后<br/><small style="color:var(--muted);font-weight:400">先存 pre_ai 快照再落库</small></div>
+          </div>
+        `,
+      },
+      {
+        id: 'import-share',
+        group: '效率与迁移',
+        icon: '📦',
+        title: '剪藏、模板、公开分享与导入备份',
+        tags: ['Notion导入', '剪藏', '分享', '热备份'],
+        html: `
+          <h2>网页智能剪藏 (Web Clipper)</h2>
+          <p>点击左下角「网页智能剪藏」输入网址，后端自动提取文章主体转换为块级文档并附带书签卡片，可选自动生成 AI 摘要。默认内置 DNS 与底层 Dialer 双重 <b>SSRF 内网 IP 拦截</b>（如需剪藏内网网页可设 <code>WOQU_ALLOW_PRIVATE_CLIP=1</code>）。</p>
+
+          <h2>单页只读公开分享</h2>
+          <p>点击页面右上角分享图标，可生成独立 <code>/share/&lt;token&gt;</code> 只读页面（内嵌多维表同步只读展示），支持<b>设置访问密码、设置过期时间、统计访问次数以及随时撤销</b>。</p>
+
+          <h2>导入导出与 Notion 迁移</h2>
+          <ul>
+            <li><b>单页导出</b>：支持导出含 Frontmatter 的 Markdown、带样式的独立 HTML，或通过「打印 / 导出 PDF」利用内置 <code>@media print</code> 排版零依赖保存 PDF。</li>
+            <li><b>Notion Export Zip 导入</b>：自动识别层级目录、剥离 32 位十六进制后缀、导入图片到 <code>uploads/</code>、修复内部链接为 <code>[[pageMention]]</code>，并将 CSV 自动转为多维数据库。</li>
+            <li><b>整库热备份与还原</b>：通过 SQLite 原生 <code>VACUUM INTO</code> 连同 <code>uploads/</code> 打包为 <code>.zip</code>；还原时先校验文件合法性并防 Zip Slip，通过后原子热切换。</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'deploy',
+        group: '运维与开发',
+        icon: '⚙️',
+        title: '部署运维、反代配置与 FAQ',
+        tags: ['Docker', 'Nginx', '环境变量', 'FAQ'],
+        html: `
+          <h2>环境变量配置表</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>变量名</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td><code>WOQU_PORT</code></td><td><code>8080</code></td><td>HTTP 监听端口</td></tr>
+                <tr><td><code>WOQU_DATA_DIR</code></td><td><code>./data</code></td><td>数据库、上传附件与 <code>.secrets.json</code> 存放目录</td></tr>
+                <tr><td><code>WOQU_INITIAL_PASSWORD</code></td><td>空</td><td>可选：首次启动自动初始化管理员密码</td></tr>
+                <tr><td><code>WOQU_MASTER_KEY</code></td><td>自动生成</td><td>AES-256-GCM 加密主密钥（不设则自动持久化在 <code>data/.secrets.json</code>）</td></tr>
+                <tr><td><code>WOQU_JWT_SECRET</code></td><td>自动生成</td><td>JWT 签名密钥</td></tr>
+                <tr><td><code>WOQU_ALLOW_PRIVATE_CLIP</code></td><td><code>false</code></td><td>设为 <code>true</code> 允许剪藏内网地址</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Nginx 反向代理关键配置（保证 AI 流式输出）</h2>
+          <div class="code-wrap">
+            <div class="code-head"><span>nginx.conf 片段</span><button class="copy-btn" data-copy="proxy_buffering off;&#10;proxy_cache off;&#10;client_max_body_size 512M;">复制</button></div>
+            <pre><code>location / {
+    proxy_pass http://127.0.0.1:8080;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_buffering off;
+    proxy_cache off;
+    client_max_body_size 512M;
+}</code></pre>
+          </div>
+
+          <h2>常见问题 (FAQ)</h2>
+          <details class="toggle-block" open>
+            <summary>容器访问宿主机 Ollama 失败怎么办？</summary>
+            <p>容器内的 <code>localhost</code> 指向容器本身，请将 Ollama Base URL 改为 <code>http://host.docker.internal:11434/v1</code>，并在宿主机设置 Ollama 监听 <code>OLLAMA_HOST=0.0.0.0</code>。</p>
+          </details>
+          <details class="toggle-block">
+            <summary>为什么建议用系统内置备份按钮而不是直接复制 woqu.db？</summary>
+            <p>SQLite 运行在 WAL 模式下，最新写入可能还在 <code>woqu.db-wal</code> 中尚未合并到主文件。通过内置备份下载调用 <code>VACUUM INTO</code> 可确保生成 100% 完整一致性快照。</p>
+          </details>
+          <details class="toggle-block">
+            <summary>忘记工作区登录密码如何重置？</summary>
+            <p>用任意 SQLite 工具打开 <code>data/woqu.db</code>，删除 <code>app_settings</code> 表中 <code>key = 'password_hash'</code> 的行并重启服务，即可重新进入初始化引导设置新密码。</p>
+          </details>
+        `,
+      },
+    ];
+
+    let activeChapterId = location.hash.replace('#', '') || CHAPTERS[0].id;
+    let slashGroupFilter = '全部';
+    let slashTextFilter = '';
+    let formulaCatFilter = '全部';
+    let formulaTextFilter = '';
+    let activePresetKey = 'deepseek';
+
+    function initTheme() {
+      const saved = localStorage.getItem('woqu-theme');
+      const isDark = saved ? saved === 'dark' : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.classList.toggle('dark', isDark);
+      document.getElementById('themeBtn').textContent = isDark ? '☀️' : '🌙';
+    }
+
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      const nextDark = !document.documentElement.classList.contains('dark');
+      document.documentElement.classList.toggle('dark', nextDark);
+      localStorage.setItem('woqu-theme', nextDark ? 'dark' : 'light');
+      document.getElementById('themeBtn').textContent = nextDark ? '☀️' : '🌙';
+    });
+
+    document.getElementById('widthToggleBtn').addEventListener('click', () => {
+      const el = document.getElementById('docContainer');
+      const isWide = el.classList.toggle('wide');
+      document.getElementById('widthToggleBtn').textContent = isWide ? '↔️ 窄屏' : '↔️ 宽屏';
+    });
+
+    const sidebar = document.getElementById('sidebar');
+    const mobileBackdrop = document.getElementById('mobileBackdrop');
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      sidebar.classList.add('open');
+      mobileBackdrop.classList.add('open');
+    });
+    mobileBackdrop.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      mobileBackdrop.classList.remove('open');
+    });
+
+    function renderSidebar() {
+      const nav = document.getElementById('navList');
+      const groups = {};
+      CHAPTERS.forEach((c) => { (groups[c.group] ||= []).push(c); });
+      nav.innerHTML = Object.entries(groups)
+        .map(([g, items]) => `
+          <div class="nav-group-title">${g}</div>
+          ${items.map((c) => `
+            <button class="nav-item ${c.id === activeChapterId ? 'active' : ''}" data-id="${c.id}">
+              <span>${c.icon}</span><span>${c.title}</span>
+            </button>
+          `).join('')}
+        `).join('');
+      nav.querySelectorAll('.nav-item').forEach((btn) => {
+        btn.addEventListener('click', () => selectChapter(btn.dataset.id));
+      });
+    }
+
+    function selectChapter(id) {
+      if (!CHAPTERS.some((c) => c.id === id)) id = CHAPTERS[0].id;
+      activeChapterId = id;
+      history.replaceState(null, '', '#' + id);
+      sidebar.classList.remove('open');
+      mobileBackdrop.classList.remove('open');
+      renderSidebar();
+      renderContent();
+      document.getElementById('scrollArea').scrollTop = 0;
+    }
+
+    function renderContent() {
+      const idx = CHAPTERS.findIndex((c) => c.id === activeChapterId);
+      const ch = CHAPTERS[idx] || CHAPTERS[0];
+      document.getElementById('breadcrumb').textContent = `${ch.icon} ${ch.title}`;
+
+      const prev = idx > 0 ? CHAPTERS[idx - 1] : null;
+      const next = idx < CHAPTERS.length - 1 ? CHAPTERS[idx + 1] : null;
+
+      const container = document.getElementById('docContainer');
+      container.innerHTML = `
+        <div class="page-hero">
+          <div class="page-icon">${ch.icon}</div>
+          <h1 class="page-title">${ch.title}</h1>
+          <div class="tag-row">${ch.tags.map((t) => `<span class="tag-pill">#${t}</span>`).join('')}</div>
+        </div>
+        ${ch.html}
+        <div class="pager">
+          ${prev ? `<button class="pager-btn" data-go="${prev.id}"><div class="pager-label">← 上一章</div><div class="pager-title">${prev.icon} ${prev.title}</div></button>` : '<div></div>'}
+          ${next ? `<button class="pager-btn next" data-go="${next.id}"><div class="pager-label">下一章 →</div><div class="pager-title">${next.icon} ${next.title}</div></button>` : '<div></div>'}
+        </div>
+      `;
+
+      container.querySelectorAll('[data-go]').forEach((b) => {
+        b.addEventListener('click', () => selectChapter(b.dataset.go));
+      });
+
+      container.querySelectorAll('.copy-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          navigator.clipboard?.writeText(btn.dataset.copy || '');
+          const old = btn.textContent;
+          btn.textContent = '已复制 ✓';
+          setTimeout(() => { btn.textContent = old; }, 1400);
+        });
+      });
+
+      if (ch.id === 'editor') bindSlashInteractive();
+      if (ch.id === 'formula') bindFormulaInteractive();
+      if (ch.id === 'ai') bindAIPresetInteractive();
+      buildTOC();
+    }
+
+    function bindSlashInteractive() {
+      const groups = ['全部', ...new Set(SLASH_COMMANDS.map((s) => s.group))];
+      const chipsEl = document.getElementById('slashGroupChips');
+      const inputEl = document.getElementById('slashFilterInput');
+      const bodyEl = document.getElementById('slashTableBody');
+
+      const paint = () => {
+        chipsEl.innerHTML = groups.map((g) => `<button class="chip ${g === slashGroupFilter ? 'active' : ''}" data-g="${g}">${g}</button>`).join('');
+        chipsEl.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => { slashGroupFilter = c.dataset.g; paint(); }));
+
+        const q = slashTextFilter.trim().toLowerCase();
+        const rows = SLASH_COMMANDS.filter((s) =>
+          (slashGroupFilter === '全部' || s.group === slashGroupFilter) &&
+          (!q || s.name.toLowerCase().includes(q) || s.keys.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q))
+        );
+        bodyEl.innerHTML = rows.map((s) => `
+          <tr>
+            <td><span class="tag-pill">${s.group}</span></td>
+            <td><b>${s.name}</b></td>
+            <td><code>${s.keys}</code></td>
+            <td>${s.desc}</td>
+          </tr>
+        `).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted)">无匹配命令</td></tr>';
+      };
+
+      inputEl.value = slashTextFilter;
+      inputEl.addEventListener('input', (e) => { slashTextFilter = e.target.value; paint(); });
+      paint();
+    }
+
+    function bindFormulaInteractive() {
+      const cats = ['全部', ...new Set(FORMULA_DOCS.map((f) => f.cat))];
+      const chipsEl = document.getElementById('formulaCatChips');
+      const inputEl = document.getElementById('formulaSearchInput');
+      const bodyEl = document.getElementById('formulaTableBody');
+
+      const paint = () => {
+        chipsEl.innerHTML = cats.map((c) => `<button class="chip ${c === formulaCatFilter ? 'active' : ''}" data-c="${c}">${c}</button>`).join('');
+        chipsEl.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => { formulaCatFilter = c.dataset.c; paint(); }));
+
+        const q = formulaTextFilter.trim().toLowerCase();
+        const rows = FORMULA_DOCS.filter((f) =>
+          (formulaCatFilter === '全部' || f.cat === formulaCatFilter) &&
+          (!q || f.fn.toLowerCase().includes(q) || f.desc.toLowerCase().includes(q))
+        );
+        bodyEl.innerHTML = rows.map((f) => `
+          <tr>
+            <td><span class="tag-pill">${f.cat}</span></td>
+            <td><code>${f.fn}</code></td>
+            <td>${f.desc}</td>
+          </tr>
+        `).join('') || '<tr><td colspan="3" style="text-align:center;color:var(--muted)">无匹配公式</td></tr>';
+      };
+
+      inputEl.value = formulaTextFilter;
+      inputEl.addEventListener('input', (e) => { formulaTextFilter = e.target.value; paint(); });
+      paint();
+    }
+
+    function bindAIPresetInteractive() {
+      const tabsEl = document.getElementById('aiPresetTabs');
+      const detailEl = document.getElementById('aiPresetDetail');
+
+      const paint = () => {
+        tabsEl.innerHTML = Object.entries(AI_PRESETS).map(([k, v]) => `
+          <button class="chip ${k === activePresetKey ? 'active' : ''}" data-k="${k}">${v.title}</button>
+        `).join('');
+        tabsEl.querySelectorAll('.chip').forEach((b) => b.addEventListener('click', () => { activePresetKey = b.dataset.k; paint(); }));
+
+        const p = AI_PRESETS[activePresetKey];
+        detailEl.innerHTML = `
+          <div><b>${p.title}</b> · 协议：<code>${p.proto}</code></div>
+          <div>Base URL：<code>${p.url}</code></div>
+          <div>推荐模型：<code>${p.models}</code></div>
+          <div style="color:var(--muted);font-size:13px">${p.tip}</div>
+        `;
+      };
+      paint();
+    }
+
+    function buildTOC() {
+      const container = document.getElementById('docContainer');
+      const tocEl = document.getElementById('tocList');
+      const headings = Array.from(container.querySelectorAll('h2, h3'));
+      headings.forEach((h, i) => { h.id = 'sec-' + i; });
+      tocEl.innerHTML = headings.map((h, i) => `
+        <a href="#sec-${i}" class="toc-link ${h.tagName === 'H3' ? 'level-3' : ''}" data-target="sec-${i}">${h.textContent}</a>
+      `).join('');
+
+      tocEl.querySelectorAll('.toc-link').forEach((a) => {
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = document.getElementById(a.dataset.target);
+          target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      const scrollArea = document.getElementById('scrollArea');
+      scrollArea.onscroll = () => {
+        let activeIdx = 0;
+        const topOffset = scrollArea.getBoundingClientRect().top + 80;
+        headings.forEach((h, i) => {
+          if (h.getBoundingClientRect().top <= topOffset) activeIdx = i;
+        });
+        tocEl.querySelectorAll('.toc-link').forEach((a, i) => {
+          a.classList.toggle('active', i === activeIdx);
+        });
+      };
+    }
+
+    // Global Cmd/Ctrl + K Search
+    const searchBackdrop = document.getElementById('searchBackdrop');
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+
+    function openSearch() {
+      searchBackdrop.classList.add('open');
+      searchInput.value = '';
+      renderSearch('');
+      setTimeout(() => searchInput.focus(), 40);
+    }
+    function closeSearch() { searchBackdrop.classList.remove('open'); }
+
+    function renderSearch(q) {
+      const kw = q.trim().toLowerCase();
+      const hits = [];
+      CHAPTERS.forEach((c) => {
+        const text = c.html.replace(/<[^>]+>/g, ' ');
+        if (!kw || c.title.toLowerCase().includes(kw) || text.toLowerCase().includes(kw)) {
+          hits.push({ chId: c.id, title: `${c.icon} ${c.title}`, sub: `章节 · ${c.group}` });
+        }
+      });
+      if (kw) {
+        SLASH_COMMANDS.forEach((s) => {
+          if (s.name.toLowerCase().includes(kw) || s.keys.toLowerCase().includes(kw) || s.desc.toLowerCase().includes(kw)) {
+            hits.push({ chId: 'editor', title: `/ ${s.name}`, sub: `斜杠命令 · ${s.desc}` });
+          }
+        });
+        FORMULA_DOCS.forEach((f) => {
+          if (f.fn.toLowerCase().includes(kw) || f.desc.toLowerCase().includes(kw)) {
+            hits.push({ chId: 'formula', title: f.fn, sub: `公式函数 (${f.cat}) · ${f.desc}` });
+          }
+        });
+      }
+      searchResults.innerHTML = hits.slice(0, 14).map((h) => `
+        <button class="search-hit" data-ch="${h.chId}">
+          <div class="search-hit-title">${h.title}</div>
+          <div class="search-hit-sub">${h.sub}</div>
+        </button>
+      `).join('') || '<div style="padding:20px;text-align:center;font-size:12px;color:var(--muted)">未找到匹配结果</div>';
+
+      searchResults.querySelectorAll('.search-hit').forEach((b) => {
+        b.addEventListener('click', () => {
+          closeSearch();
+          selectChapter(b.dataset.ch);
+        });
+      });
+    }
+
+    document.getElementById('openSearchBtn').addEventListener('click', openSearch);
+    document.getElementById('closeSearchBtn').addEventListener('click', closeSearch);
+    searchBackdrop.addEventListener('click', (e) => { if (e.target === searchBackdrop) closeSearch(); });
+    searchInput.addEventListener('input', (e) => renderSearch(e.target.value));
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        searchBackdrop.classList.contains('open') ? closeSearch() : openSearch();
+      } else if (e.key === 'Escape') {
+        closeSearch();
+      }
+    });
+
+    initTheme();
+    renderSidebar();
+    renderContent();
+  </script>
+</body>
+</html>

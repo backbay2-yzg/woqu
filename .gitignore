@@ -1,0 +1,26 @@
+# Local runtime data & secrets
+data/
+_e2e_tmp/
+.env
+.env.*
+*.log
+
+# Compiled binaries
+/woqu.exe
+/woqu
+*.exe
+*.out
+
+# Frontend build artifacts & dependencies
+frontend/node_modules/
+frontend/dist/
+
+# Embedded static assets generated at build time (keep .gitkeep for clean source checkouts)
+backend/internal/static/dist/*
+!backend/internal/static/dist/.gitkeep
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
