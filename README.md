@@ -8,8 +8,9 @@
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?style=flat-square&logo=react)](https://react.dev/)
 [![SQLite](https://img.shields.io/badge/SQLite-FTS5_%2B_Vector-003B57?style=flat-square&logo=sqlite)](https://sqlite.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker)](./Dockerfile)
+[![Docs](https://img.shields.io/badge/Docs-GitHub_Pages-2563EB?style=flat-square&logo=githubpages)](https://backbay2-yzg.github.io/woqu/)
 
-[🌐 打开同款风格交互式使用文档](./docs/index.html) · [📖 上手与效率指南](./docs/user-guide.md) · [✏️ 块级编辑器手册](./docs/editor-guide.md) · [🗃️ 多维表与公式参考](./docs/database-formula.md) · [🤖 AI 与 Agent 指南](./docs/ai-guide.md) · [🚀 部署与 API 文档](./docs/deployment.md)
+[🌐 在线交互式使用文档 (GitHub Pages)](https://backbay2-yzg.github.io/woqu/) · [📖 上手与效率指南](./docs/user-guide.md) · [✏️ 块级编辑器手册](./docs/editor-guide.md) · [🗃️ 多维表与公式参考](./docs/database-formula.md) · [🤖 AI 与 Agent 指南](./docs/ai-guide.md) · [🚀 部署与 API 文档](./docs/deployment.md)
 
 </div>
 
@@ -104,11 +105,11 @@ cd ..
 ## 📚 完整使用文档索引
 
 > [!TIP]
-> 如果你更喜欢**与 Woqu 应用同款的交互式阅读体验**（支持浅/深主题切换、全站搜索、按分类筛选 52 个公式与 24 个斜杠命令），可以直接在浏览器打开 [`docs/index.html`](./docs/index.html)，或在运行中的 Woqu 界面左下角点击 **「使用文档」**。
+> 如果你更喜欢**与 Woqu 应用同款的交互式阅读体验**（支持浅/深主题切换、全站搜索、按分类筛选 52 个公式与 24 个斜杠命令），可以直接访问在线文档 [**https://backbay2-yzg.github.io/woqu/**](https://backbay2-yzg.github.io/woqu/)（对应本地 [`docs/index.html`](./docs/index.html)），或在运行中的 Woqu 界面左下角点击 **「使用文档」**。
 
 | 文档 | 适用场景与核心内容 |
 | --- | --- |
-| [**🌐 交互式网页使用文档 (`docs/index.html`)**](./docs/index.html) | 同款三栏浅深双主题阅读器，内置实时搜索、公式/斜杠命令速查过滤器与大纲导航 |
+| [**🌐 在线交互式使用文档 (GitHub Pages)**](https://backbay2-yzg.github.io/woqu/) | 同款三栏浅深双主题阅读器（源码 [`docs/index.html`](./docs/index.html)），内置实时搜索、公式/斜杠命令速查过滤器与大纲导航 |
 | [**📖 上手与效率功能指南 (`docs/user-guide.md`)**](./docs/user-guide.md) | 初始化向导、三栏界面、页面树拖拽、全局混合搜索、图谱、版本回滚、模板、剪藏、公开分享、Notion 导入与备份还原 |
 | [**✏️ 块级编辑器完全手册 (`docs/editor-guide.md`)**](./docs/editor-guide.md) | 24 个 `/` 斜杠命令全览、`[[` 双向链接、拖拽手柄与块锚点、Callout/Mermaid/KaTeX/分栏/内嵌数据库、划词 Diff 与快捷键 |
 | [**🗃️ 多维数据库与公式引擎参考 (`docs/database-formula.md`)**](./docs/database-formula.md) | 表格/看板/日历/画廊四视图、18 种字段类型、双向 Relation、14 种 Rollup 汇总、52 个公式函数完整语法与实战范例 |
