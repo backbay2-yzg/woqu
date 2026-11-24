@@ -24,7 +24,7 @@
 
 ### 启动命令
 ```bash
-git clone git@github.com:backbay2/woqu.git
+git clone https://github.com/backbay2-yzg/woqu.git
 cd woqu
 docker compose up -d --build
 ```

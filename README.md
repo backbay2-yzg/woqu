@@ -62,7 +62,7 @@ flowchart TB
 ### 方式一：Docker Compose 一键部署（推荐生产/NAS/VPS）
 
 ```bash
-git clone git@github.com:backbay2/woqu.git
+git clone https://github.com/backbay2-yzg/woqu.git
 cd woqu
 docker compose up -d --build
 ```
